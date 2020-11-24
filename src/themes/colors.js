@@ -11,7 +11,8 @@ const colors = {
   activeFont: '#EAAB00',
   error: '#eb4b5f',
   font: '#777777',
-  appColor: '#F15C60'
+  appColor: '#F15C60',
+  bg: '#F5F5F5'
 };
 
 export default colors;

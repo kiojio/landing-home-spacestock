@@ -1,15 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {
   Animated, 
   Easing,
   View, 
   ScrollView, 
   Text,
+  Image,
   ImageBackground,
   TouchableOpacity
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
-import {SvgCss} from 'react-native-svg';
+import Carousel from 'react-native-snap-carousel';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+
+import {SvgCss, SvgCssUri} from 'react-native-svg';
 import Header from 'components/Header';
 import InputIcon from 'components/InputIcon';
 
@@ -21,31 +25,131 @@ import unitApartemen from '../../Assets/svg/unitApartemen';
 import entrust from '../../Assets/svg/entrust';
 import house from '../../Assets/svg/house';
 
+const menu = [
+  {
+    title: 'Unit Apartemen',
+    icon: unitApartemen
+  },
+  {
+    title: 'Rumah',
+    icon: house
+  },
+  {
+    title: 'Kantor',
+    icon: office
+  },
+  {
+    title: 'Titip Jual/Sewa',
+    icon: entrust
+  }
+]
+
+const InfoData = [
+  {
+    title: 'Ribuan Listings Terverifikasi',
+    content: 'Pencarian properti lebih cepat dan mudah',
+    img: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/homepage/exp-service-3.svg'
+  },
+  {
+    title: 'Pengetahuan Properti Terbaik',
+    content: 'Agen kami terpilih berkat pengalaman dan pengetahuan yang luas',
+    img: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/homepage/exp-service-2.svg'
+  },
+  {
+    title: 'Transparan & Terpercaya',
+    content: 'Komitmen untuk memberikan layanan yang jujur dan transparan',
+    img: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/homepage/exp-service-5.svg'
+  }
+]
+
+const bannerData = [
+  {
+    imgLink: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/homepage/carousel/mcarousel1.jpg'
+  },
+  {
+    imgLink: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/homepage/carousel/mcarousel2.jpg'
+  },
+  {
+    imgLink: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/homepage/carousel/mcarousel3.jpg'
+  },
+  {
+    imgLink: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/homepage/carousel/mcarousel4.jpg'
+  },
+  {
+    imgLink: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/homepage/carousel/mcarousel5.jpg'
+  }
+]
+
+const capitalCity = [
+  {
+    title: 'Jakarta Utara',
+    imgLink: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/Periurus%20Memoria/area/thumbnail/jakarta_barat.png'
+  },
+  {
+    title: 'Jakarta Utara',
+    imgLink: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/Periurus%20Memoria/area/thumbnail/jakarta_barat.png'
+  },
+  {
+    title: 'Jakarta Utara',
+    imgLink: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/Periurus%20Memoria/area/thumbnail/jakarta_barat.png'
+  },
+  {
+    title: 'Jakarta Utara',
+    imgLink: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/Periurus%20Memoria/area/thumbnail/jakarta_barat.png'
+  },
+  {
+    title: 'Jakarta Utara',
+    imgLink: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/Periurus%20Memoria/area/thumbnail/jakarta_barat.png'
+  },
+]
+
 function HomeScreen() {
   const [category, setCategory] = useState(null)
   const [isOn, setIsOn] = useState(false)
   const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0))
   const [search, setSearch] = useState('')
+  const carousel = useRef()
+  const banner = useRef()
   const categoryList = ["Apartmen", "Rumah", "Kantor"];
-  const menu = [
-    {
-      title: 'Unit Apartemen',
-      icon: unitApartemen
-    },
-    {
-      title: 'Rumah',
-      icon: house
-    },
-    {
-      title: 'Kantor',
-      icon: office
-    },
-    {
-      title: 'Titip Jual/Sewa',
-      icon: entrust
-    }
-  ]
+ 
   const knobOffset = 50
+
+  const info = ({item, index}) => {
+    return (
+      <View style={styles.infoSlide}>
+        <SvgCssUri
+          width={50}
+          height={50}
+          uri={item.img}
+        />
+        <Text style={styles.infoTitle}>{ item.title }</Text>
+        <Text style={styles.infoContent}>{ item.content }</Text>
+      </View>
+    );
+  }
+
+  const bannerCard = ({item, index}) => {
+    return (
+      <Image
+        style={styles.bannerCard}
+        source={{uri: item.imgLink}}
+      />
+    );
+  }
+
+  const cityCard = ({item, index}) => {
+    return (
+        <ImageBackground
+          style={styles.cityCard}
+          imageStyle={{borderRadius:10}}
+          source={{uri: item.imgLink}}
+        >
+        <Text style={styles.textCity}>
+          {item.title}
+        </Text>
+        </ImageBackground>
+    );
+  }
 
 
   const toggleHandle = () => {
@@ -165,15 +269,54 @@ function HomeScreen() {
         {
           menu.map((item, index) => {
             return(
-              <View
+              <TouchableOpacity
                 style={styles.menu}
               >
-                <SvgCss xml={item.icon} width={30} height={30} />
-                <Text>{item.title}</Text>
-              </View>
+                <SvgCss xml={item.icon} width={40} height={40} />
+                <Text style={styles.textMenu}>{item.title}</Text>
+              </TouchableOpacity>
             )
           })
         }
+        </View>
+        <View
+          style={styles.sectionInfo}
+        >
+          <Text style={styles.sectionInfoTitle}>Agen properti terpercaya berbasis teknologi</Text>
+          <Carousel
+            ref={carousel}
+            data={InfoData}
+            renderItem={info}
+            sliderWidth={styles.sliderWidth}
+            itemWidth={styles.itemWidth}
+          />
+        </View>
+        <View
+          style={styles.sectionBanner}
+        >
+          <Carousel
+            ref={banner}
+            data={bannerData}
+            renderItem={bannerCard}
+            sliderWidth={styles.sliderWidth}
+            itemWidth={styles.itemWidth * 0.8}
+          />
+        </View>
+        <View
+          style={styles.sectionCity}
+        >
+          <Text style={styles.sectionTitleCity}>Telusuri</Text>
+          <Carousel
+            ref={banner}
+            data={capitalCity}
+            slideStyle={{margin:10}}
+            renderItem={cityCard}
+            sliderWidth={styles.sliderWidth}
+            itemWidth={200}
+            layout='default'
+            activeSlideAlignment='start'
+            inactiveSlideScale={1}
+          />
         </View>
       </ScrollView>
     </View>

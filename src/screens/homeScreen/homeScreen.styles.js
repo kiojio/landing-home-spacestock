@@ -70,23 +70,86 @@ export default StyleSheet.create({
   menuList:{
     flex: 1,
     flexDirection: "row",
-    backgroundColor: '#ccc',
+    backgroundColor: colors.bg,
     marginTop: 30,
-    padding: 20,
+    padding: 10,
     height:130,
-    alignItems: "center"
+    alignItems: "center",
   },
   menu:{
     flex: 1,
     backgroundColor: colors.white,
     alignItems: "center",
-    width: 60,
-    height: 60,
+    width: 86,
+    height: 90,
     borderRadius: 10,
+    padding: 8,
+    marginHorizontal: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 2,  
     elevation: 5
-  }
+  },
+  textMenu:{
+    textAlign: 'center', 
+    width:100
+  },
+  sectionInfo:{
+    marginTop: 30,
+  },
+  sectionInfoTitle:{
+    fontWeight:"bold",
+    fontSize: 15,
+    padding: 20,
+    paddingBottom: 20,
+  },  
+  infoSlide:{
+    alignItems: "center"
+  },
+  infoTitle:{
+    paddingLeft: 30,
+    alignSelf: "flex-start",
+    fontWeight: "bold",
+    width: width * 0.5
+  },
+  infoContent:{
+    paddingLeft: 30,
+    alignSelf: "flex-start",
+    width: width * 0.8
+  },
+  sliderWidth: width,
+  itemWidth: width,
+  halfWidth: width/2,
+  sectionBanner:{
+    marginTop: 30,
+  },
+  bannerCard:{
+    width: width * 0.8,
+    height: 200,
+    borderRadius: 10
+  },
+  sectionCity:{
+    marginTop: 20,
+  },
+  sectionTitleCity:{
+    padding:10,
+    fontSize: 25,
+    fontWeight:"bold"
+  },
+  cityCard:{
+    width: 200,
+    height: 300,
+    borderRadius: 10
+  },
+  textCity: {
+    position: 'absolute',
+    fontSize: 24,
+    alignSelf: "center",
+    textAlign: "center",
+    padding: 20,
+    color: colors.white,
+    fontWeight: 'bold',
+    bottom: 0
+  },
 });

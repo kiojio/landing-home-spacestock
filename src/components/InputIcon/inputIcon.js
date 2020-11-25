@@ -11,7 +11,7 @@ const InputIcon = ({
   secure,
   leftIcon,
   icon,
-  onPressIcon
+  style
 }) => {
   return (
     <View
@@ -40,12 +40,12 @@ const InputIcon = ({
         <View/>
       }
       <TextInput
-        style={{
+        style={[{
           flex: 1,
           backgroundColor: '#fff',
           color: '#424242',
           marginLeft: leftIcon ? 5 : 0
-        }}
+        }, ]}
         placeholderTextColor="black"
         onChangeText={onChange}
         placeholder={placeholder}

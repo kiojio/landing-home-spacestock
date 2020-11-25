@@ -8,11 +8,16 @@ import {
 import {SvgCss, SvgCssUri} from 'react-native-svg';
 import searchIcon from '../../Assets/svg/searchIcon';
 import barIcon from '../../Assets/svg/barIcon';
+import close from '../../Assets/svg/close';
+import arrowIcon from '../../Assets/svg/arrowIcon';
  
 const HeaderPage = ({
   onPressLeft,
   onPressSearch,
   onPressDrawer,
+  goBack,
+  canGoBack,
+  isSearch
 }) => {
   return (
     <View
@@ -29,16 +34,43 @@ const HeaderPage = ({
           borderBottomColor: '#E2E2E2'
         }} 
       >
-          <TouchableOpacity
+          <View
             style={{justifyContent: 'center', padding: 5, zIndex:1}}
-            onPress={onPressLeft}
           >
-          <SvgCssUri
-            width={150}
-            height={30}
-            uri="https://res.cloudinary.com/dpqdlkgsz/image/upload/t_aparecium_minima/v1/Periurus%20Memoria/icon/spacestock.svg"
-          />
-          </TouchableOpacity>
+          {
+            canGoBack ? 
+            <View
+              style={{
+                flex:1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                padding: 10,
+                paddingRight: 25
+              }}
+            >
+            <TouchableOpacity
+              onPress={goBack}
+            >
+              <SvgCss xml={arrowIcon} width={30} height={30} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onPressLeft}
+            >
+              <SvgCssUri
+                width={150}
+                height={30}
+                uri="https://res.cloudinary.com/dpqdlkgsz/image/upload/t_aparecium_minima/v1/Periurus%20Memoria/icon/spacestock.svg"
+              />
+            </TouchableOpacity>
+            </View>
+            :
+            <SvgCssUri
+              width={150}
+              height={30}
+              uri="https://res.cloudinary.com/dpqdlkgsz/image/upload/t_aparecium_minima/v1/Periurus%20Memoria/icon/spacestock.svg"
+            />
+          }
+          </View>
           <View
             style={{
               flex:1,
@@ -54,12 +86,22 @@ const HeaderPage = ({
               }}
               onPress={onPressSearch}
             >
-              <SvgCss xml={searchIcon} width={30} height={30} />   
+              {
+                isSearch ?
+                <SvgCss xml={close} width={30} height={30} />   
+                :
+                <SvgCss xml={searchIcon} width={30} height={30} />   
+              }
             </TouchableOpacity>
             <TouchableOpacity
               onPress={onPressDrawer}
             >
-              <SvgCss xml={barIcon} width={30} height={30} />
+              {
+                isSearch ?
+                <View/>
+                :
+                <SvgCss xml={barIcon} width={30} height={30} />
+              }
             </TouchableOpacity>
           </View>
       </View>

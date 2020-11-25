@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import colors from '../../themes/colors';
 
 const {width, height} = Dimensions.get('window');
@@ -9,6 +10,23 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.white
+  },
+  modalSearch:{
+    flex:1,
+    width: width,
+    borderWidth: 0,
+  },
+  modalSearchCat:{
+    padding: 20,
+    backgroundColor: colors.white
+  },
+  modalSearchLoc:{
+    height: 70,
+    backgroundColor: colors.white,
+    marginBottom: 20
+  },
+  modalTitleSearchLoc:{
+    paddingLeft: 20
   },
   textBanner: {
     fontSize: 24,
@@ -49,6 +67,14 @@ export default StyleSheet.create({
     height: 52,
     borderRadius: 10,
     padding: 4,
+  },
+  contentToggle:{
+    position: 'relative',
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    paddingHorizontal:5,
+    top: -33,
+    zIndex: 10
   },
   slide:{
     alignItems: "center",

@@ -3,10 +3,12 @@ import { StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import SplashScreen from 'screens/splashScreen';
 import HomeScreen from 'screens/homeScreen';
+import MenuScreen from 'screens/menuScreen';
 import ContactsScreen from 'screens/contactsScreen';
 import ProfileScreen from 'screens/profileScreen';
 import SignInScreen from 'screens/signInScreen';
@@ -27,6 +29,7 @@ const prefix = `${config.applicationId}://`;
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const tabBarOptions = {
   keyboardHidesTabBar: true,
@@ -123,11 +126,38 @@ const AppNavigation = () => {
     </NavigationContainer>
   }
 
+  const HomeStack = ({navigation}) => {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false
+        }}
+      >
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+        />
+        <Stack.Screen
+          name="Menu"
+          component={MenuScreen}
+        />
+      </Stack.Navigator>
+    );
+  }
+
   return (
     <NavigationContainer linking={{ prefixes: [prefix] }}>
-      <Stack.Navigator headerMode="none">
+      <Drawer.Navigator initialRouteName="Home" drawerPosition="right">
+        <Drawer.Screen name="Beranda" component={HomeStack} />
+        <Drawer.Screen name="Apartmen" component={HomeScreen} />
+        <Drawer.Screen name="Rumah" component={HomeScreen} />
+        <Drawer.Screen name="Kantor" component={HomeScreen} />
+        <Drawer.Screen name="Titip Jual/Sewa" component={HomeScreen} />
+        <Drawer.Screen name="Join as Agent" component={HomeScreen} />
+      </Drawer.Navigator>
+      {/* <Stack.Navigator headerMode="none">
         <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
+      </Stack.Navigator> */}
     </NavigationContainer>
   );
 };

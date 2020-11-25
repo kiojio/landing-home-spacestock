@@ -7,7 +7,7 @@ import {
   Text,
   Image,
   ImageBackground,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import Carousel from 'react-native-snap-carousel';
@@ -15,6 +15,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 
 import {SvgCss, SvgCssUri} from 'react-native-svg';
 import Header from 'components/Header';
+import ModalSearch from 'components/ModalSearch';
 import InputIcon from 'components/InputIcon';
 
 import styles from './homeScreen.styles';
@@ -102,15 +103,16 @@ const capitalCity = [
     imgLink: 'https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/Periurus%20Memoria/area/thumbnail/jakarta_barat.png'
   },
 ]
+const categoryList = ["Apartmen", "Rumah", "Kantor"];
 
-function HomeScreen() {
-  const [category, setCategory] = useState(null)
+function HomeScreen({navigation}) {
   const [isOn, setIsOn] = useState(false)
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0))
+  const [category, setCategory] = useState(null)
   const [search, setSearch] = useState('')
+  const [modalSearch, setModalSearch] = useState(false)
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0))
   const carousel = useRef()
   const banner = useRef()
-  const categoryList = ["Apartmen", "Rumah", "Kantor"];
  
   const knobOffset = 50
 
@@ -130,15 +132,22 @@ function HomeScreen() {
 
   const bannerCard = ({item, index}) => {
     return (
-      <Image
-        style={styles.bannerCard}
-        source={{uri: item.imgLink}}
-      />
+      <TouchableOpacity
+        onPress={() => console.log("banner pressed")}
+      >
+        <Image
+          style={styles.bannerCard}
+          source={{uri: item.imgLink}}
+        />
+      </TouchableOpacity>
     );
   }
 
   const cityCard = ({item, index}) => {
     return (
+      <TouchableOpacity
+        onPress={() => console.log("city pressed")}
+      >
         <ImageBackground
           style={styles.cityCard}
           imageStyle={{borderRadius:10}}
@@ -148,6 +157,7 @@ function HomeScreen() {
           {item.title}
         </Text>
         </ImageBackground>
+      </TouchableOpacity>
     );
   }
 
@@ -172,8 +182,9 @@ function HomeScreen() {
     <View style={styles.screen}>
       <Header
         onPressLeft={() => {console.log("test left")}}
-        onPressSearch={() => {console.log("test search")}}
-        onPressDrawer={() => {console.log("test drawer")}}
+        onPressSearch={() => setModalSearch(!modalSearch)}
+        onPressDrawer={() => navigation.toggleDrawer()}
+        isSearch={modalSearch}
       />
       <ScrollView>
         <View
@@ -239,14 +250,7 @@ function HomeScreen() {
                 ]}>
                 </Animated.View>
                 <View
-                  style={{
-                    position: 'relative',
-                    flexDirection: "row",
-                    justifyContent: 'space-between',
-                    paddingHorizontal:5,
-                    top: -33,
-                    zIndex: 10
-                  }}
+                  style={styles.contentToggle}
                 >
                   <Text style={[styles.textSlide, isOn ? {color:colors.black} : {color:colors.white, paddingLeft:5}]}>Sewa</Text>
                   <Text style={[styles.textSlide, isOn ? {color:colors.white, paddingRight:10} : {color:colors.black}]}>Beli</Text>
@@ -271,6 +275,7 @@ function HomeScreen() {
             return(
               <TouchableOpacity
                 style={styles.menu}
+                onPress={() => navigation.navigate('Menu')}
               >
                 <SvgCss xml={item.icon} width={40} height={40} />
                 <Text style={styles.textMenu}>{item.title}</Text>
@@ -316,9 +321,19 @@ function HomeScreen() {
             layout='default'
             activeSlideAlignment='start'
             inactiveSlideScale={1}
+            inactiveSlideOpacity={1}
           />
         </View>
       </ScrollView>
+      <ModalSearch
+        visible={modalSearch}
+        setVisible={() => setModalSearch(!modalSearch)}
+        categoryList={categoryList}
+        valueSearch={search}
+        onChangeSearch={(value) => setSearch(value)}
+        category={category}
+        onChangeCategory={(value)=> setCategory(value)}
+      />
     </View>
   );
 }
